@@ -8,12 +8,12 @@ ENV TEAMCITY_AGENT_DIR /teamcity-agent
 ENV TEAMCITY_AGENT_WORK_DIR /teamcity-work
 
 # Environment variables, safe to change in container
-ENV TEAMCITY_AGENT_NAME "SBT Agent"
+ENV TEAMCITY_AGENT_NAME "SBT_Agent"
 ENV TEAMCITY_AGENT_PORT 9090
 ENV TEAMCITY_SERVER "http://teamcity:8111"
 
 RUN apk add --update curl git \
- && curl -LO http://download.jetbrains.com/teamcity/TeamCity-$TEAMCITY_VERSION.war
+ && curl  --fail --silent --location --retry 3 -LO http://download.jetbrains.com/teamcity/TeamCity-$TEAMCITY_VERSION.war
 
 RUN mkdir -p $TEAMCITY_AGENT_DIR \
  && unzip -qq TeamCity-$TEAMCITY_VERSION.war update/buildAgent.zip -d /tmp \
@@ -24,7 +24,8 @@ RUN mkdir -p $TEAMCITY_AGENT_DIR \
 
  && rm -f TeamCity-$TEAMCITY_VERSION.war \
  && rm -fR /tmp/* \
- && adduser -S -h $TEAMCITY_AGENT_WORK_DIR -s /bin/false teamcity
+ && adduser -S -h $TEAMCITY_AGENT_WORK_DIR -s /bin/false teamcity \
+ && chown teamcity $TEAMCITY_AGENT_DIR
 
 ADD teamcity-agent.sh /teamcity-agent.sh
 
