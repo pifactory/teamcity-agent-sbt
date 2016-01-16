@@ -1,10 +1,13 @@
 FROM 1science/sbt
 MAINTAINER Alexander Dvorkovyy
 
-ARG TEAMCITY_VERSION=9.1.5
-ARG TEAMCITY_AGENT_DIR=/teamcity-agent
-ARG TEAMCITY_AGENT_WORK_DIR=/teamcity-work
+# Build arguments, do not use in container.
+# Will be converted to ARG once Docker Hub migrates to 1.9
+ENV TEAMCITY_VERSION 9.1.5
+ENV TEAMCITY_AGENT_DIR /teamcity-agent
+ENV TEAMCITY_AGENT_WORK_DIR /teamcity-work
 
+# Environment variables, safe to change in container
 ENV TEAMCITY_AGENT_NAME "SBT Agent"
 ENV TEAMCITY_AGENT_PORT 9090
 ENV TEAMCITY_SERVER "http://teamcity:8111"
