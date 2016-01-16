@@ -29,7 +29,8 @@ RUN mkdir -p $TEAMCITY_AGENT_DIR \
 ADD teamcity-agent.sh /teamcity-agent.sh
 
 RUN sed -i 's#%TEAMCITY_AGENT_DIR%#'$TEAMCITY_AGENT_DIR'#' /teamcity-agent.sh \
- && sed -i 's#%TEAMCITY_AGENT_WORK_DIR%#'$TEAMCITY_AGENT_WORK_DIR'#' /teamcity-agent.sh
+ && sed -i 's#%TEAMCITY_AGENT_WORK_DIR%#'$TEAMCITY_AGENT_WORK_DIR'#' /teamcity-agent.sh \
+ && chmod +x /teamcity-agent.sh
 
 VOLUME $TEAMCITY_AGENT_WORK_DIR
 WORKDIR $TEAMCITY_AGENT_WORK_DIR
