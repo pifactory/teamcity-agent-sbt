@@ -5,6 +5,7 @@ MAINTAINER Alexander Dvorkovyy
 # Will be converted to ARG once Docker Hub migrates to 1.9
 ENV TEAMCITY_VERSION 9.1.5
 ENV TEAMCITY_AGENT_DIR /teamcity-agent
+ENV TEAMCITY_AGENT_HOME /home/teamcity
 ENV TEAMCITY_AGENT_WORK_DIR /home/teamcity/builds
 
 # Environment variables, safe to change in container
@@ -25,8 +26,8 @@ RUN mkdir -p $TEAMCITY_AGENT_DIR \
  && rm -f TeamCity-$TEAMCITY_VERSION.war \
  && rm -fR /tmp/* \
  && addgroup -S -g 990 teamcity \
- && adduser -S -u 990 -G teamcity -h $TEAMCITY_AGENT_WORK_DIR -s /bin/false teamcity \
- && chown teamcity $TEAMCITY_AGENT_DIR
+ && adduser -S -u 990 -G teamcity -h $TEAMCITY_AGENT_HOME -s /bin/false teamcity \
+ && chown teamcity:teamcity $TEAMCITY_AGENT_DIR
 
 ADD teamcity-agent.sh /teamcity-agent.sh
 
@@ -34,8 +35,8 @@ RUN sed -i 's#%TEAMCITY_AGENT_DIR%#'$TEAMCITY_AGENT_DIR'#' /teamcity-agent.sh \
  && sed -i 's#%TEAMCITY_AGENT_WORK_DIR%#'$TEAMCITY_AGENT_WORK_DIR'#' /teamcity-agent.sh \
  && chmod +x /teamcity-agent.sh
 
-VOLUME $TEAMCITY_AGENT_WORK_DIR
-WORKDIR $TEAMCITY_AGENT_WORK_DIR
+VOLUME $TEAMCITY_AGENT_HOME
+WORKDIR $TEAMCITY_AGENT_HOME
 
 USER teamcity
 
