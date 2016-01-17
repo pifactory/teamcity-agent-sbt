@@ -24,7 +24,8 @@ RUN mkdir -p $TEAMCITY_AGENT_DIR \
 
  && rm -f TeamCity-$TEAMCITY_VERSION.war \
  && rm -fR /tmp/* \
- && adduser -S -h $TEAMCITY_AGENT_WORK_DIR -s /bin/false teamcity \
+ && addgroup -S -g 990 teamcity \
+ && adduser -S -u 990 -G teamcity -h $TEAMCITY_AGENT_WORK_DIR -s /bin/false teamcity \
  && chown teamcity $TEAMCITY_AGENT_DIR
 
 ADD teamcity-agent.sh /teamcity-agent.sh
