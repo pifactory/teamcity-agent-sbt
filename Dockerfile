@@ -5,7 +5,7 @@ MAINTAINER Alexander Dvorkovyy
 # Will be converted to ARG once Docker Hub migrates to 1.9
 ENV TEAMCITY_VERSION 9.1.5
 ENV TEAMCITY_AGENT_DIR /teamcity-agent
-ENV TEAMCITY_AGENT_WORK_DIR /teamcity-work
+ENV TEAMCITY_AGENT_WORK_DIR /home/teamcity/builds
 
 # Environment variables, safe to change in container
 ENV TEAMCITY_AGENT_NAME "SBT_Agent"
